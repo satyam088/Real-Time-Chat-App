@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import './ParticipantsPage.css';
 import { getAvatarUrl } from './utils/getAvatarUrl.js';
+import { getUserColor } from './utils/getUserColor.js';
 
 const ParticipantsPage = ({ roomName, onClose }) => {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const isGuestUser = (member) => {
+    if (!member) return false;
+    const name = (member.username || member.name || '').trim();
+    return name.toLowerCase().includes('guestuser');
+  };
+
+  const regularUsers = members.filter((m) => !isGuestUser(m));
+  const guestUsers = members.filter((m) => isGuestUser(m));
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -49,23 +59,57 @@ const ParticipantsPage = ({ roomName, onClose }) => {
           </div>
         )}
         {error && <p className="error-message">{error}</p>}
-        {!loading && !error && (
-          <ul>
-            {members.map((member, index) => (
-              <li key={member.username || index} className="member-item">
-                <img
-                  src={getAvatarUrl(member.username, member.picture, member.email)}
-                  alt={member.username}
-                  className="member-avatar"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = getAvatarUrl(member.username, '', member.email);
-                  }}
-                />
-                <span className="member-name">{member.username}</span>
-              </li>
-            ))}
-          </ul>
+        {!loading && !error && members.length > 0 && (
+          <div className="members-container">
+            {regularUsers.length > 0 && (
+              <div className="members-section">
+                <h3 className="section-title">Members ({regularUsers.length})</h3>
+                <ul>
+                  {regularUsers.map((member, index) => (
+                    <li key={member.username || index} className="member-item">
+                      <img
+                        src={getAvatarUrl(member.username, member.picture, member.email)}
+                        alt={member.username}
+                        className="member-avatar"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = getAvatarUrl(member.username, '', member.email);
+                        }}
+                      />
+                      <span className="member-name" style={{ color: getUserColor(member.username), fontWeight: 600 }}>
+                        {member.username}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {guestUsers.length > 0 && (
+              <div className="members-section guest-section">
+                <h3 className="section-title guest-title">Guest Users ({guestUsers.length})</h3>
+                <ul>
+                  {guestUsers.map((member, index) => (
+                    <li key={member.username || index} className="member-item guest-item">
+                      <img
+                        src={getAvatarUrl(member.username, member.picture, member.email)}
+                        alt={member.username}
+                        className="member-avatar"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = getAvatarUrl(member.username, '', member.email);
+                        }}
+                      />
+                      <span className="member-name" style={{ color: getUserColor(member.username), fontWeight: 600 }}>
+                        {member.username}
+                      </span>
+                      <span className="guest-badge">Guest</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         )}
         {!loading && !error && members.length === 0 && (
           <p>This room has no members yet.</p>

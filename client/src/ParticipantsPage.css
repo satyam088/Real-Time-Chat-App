@@ -53,6 +53,34 @@
   padding: 0 24px;
 }
 
+.members-container {
+  max-width: 600px;
+  margin: 16px auto 32px auto;
+}
+
+.members-section {
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #2563eb;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 16px 0 8px 0;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #3b82f6;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.guest-title {
+  color: #64748b;
+  border-bottom-color: #cbd5e1;
+}
+
 .members-list ul {
   list-style: none;
   padding: 0;
@@ -65,6 +93,17 @@
   align-items: center;
   padding: 12px 0;
   border-bottom: 1px solid #f0f0f0;
+}
+
+.guest-badge {
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 600;
+  background-color: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+  padding: 2px 8px;
+  border-radius: 12px;
 }
 
 .member-avatar {

@@ -51,6 +51,81 @@ app.use((req, res, next) => {
 
 app.use(express.json()); 
 
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || 'dhet30juy',
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true
+});
+
+const defaultSongsList = [
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979770/Vaari_Jaavan_Psytrance_Mix_lcf4g8.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979767/Rang_De_Lal_Oye_Oye_Bollytech_Mashup_fcionh.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979751/The_OTC_Roman_Reigns_makes_his_entrance_at_WrestleMania_42_WWE_WrestleMania_42_4_19_26_-_WWE_on_Netflix_oro3bz.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979738/Phir_Se_-_8K_Video_Dhurandhar_The_Revenge_Ranveer_Singh_Shashwat_Sachdev_Arijit_S_Irshad_K_-_T-Series_nlw65f.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979732/TAMMA_TAMMA_Full_Video_Dhurandhar_The_Revenge_Ranveer_Singh_Sanjay_Dutt_Bappi_L_Anuradha_P_-_T-Series_rn8dyz.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979732/Shararat_Techno_Mashup_ugdkdi.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979731/Run_Down_The_City_x_Rumble_Mashup_xitlgn.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979725/Roman_Reigns_I_Am_Greatness_Intro_Cut_ekahyr.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979714/Shakira_-_Waka_Waka_This_Time_for_Africa_The_Official_2010_FIFA_World_Cup_Song_-_shakiraVEVO_a5h2ke.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979700/Made_In_India_-_Alisha_Chinai_Official_Video_Biddu_Shyam_Anuragi_-_SonyMusicIndiaVEVO_tnvxjp.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979639/Main_Aur_Tu_Bollytech_Mashup_iki1mc.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979625/John_Cena_-_The_Time_Is_Now_Entrance_Theme_copy_smfbkm.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979616/Hum_Pyaar_Karne_Wale_Electro_House_Mashup_lx5hsu.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979609/Ishq_Jalakar_Bollytech_Mashup_sjlm9k.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979594/India_-_Unreal_World_Cup_Anthem_-_Unreal_Fc_Content_fdg22k.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979584/Gehra_Hua_Melodic_Techno_Mashup_jutpyh.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979567/Ed_Sheeran_-_Shape_of_You_Official_Music_Video_-_Ed_Sheeran_vwfe2f.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979564/Give_Me_Some_Sunshine_-_Aamir_Khan_Madhavan_Sharman_J_Suraj_Jagan_Shantanu_Moitra_3_Idiots_-_Dil_Se_Bollywood_24x7_glwuqe.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979551/Dhurandhar_The_Revenge_-_Aari_Aari_-_Dhurandhar_The_Revenge_320_kbps_lky23v.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979523/CM_Punk_-_Theme_Song__mp3.pm_ydyaqq.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979503/Run_Down_The_City_x_Rumble_Mashup_zvg5hl.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784979407/Roman_Reigns_I_Am_Greatness_Intro_Cut_rf1piv.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784978423/Dhurandhar-Title-Track-Mp3-Song-by-Hanumankind_PagalWorldi.com.co_ip41xj.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784978401/JAIYE_SAJANA_Video_Dhurandhar_The_Revenge_Ranveer_Singh_Shashwat_S_Satinder_S_Jasmine_S_-_T-Series_xv8d6k.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784966560/Dhurandhar-Title-Track-Mp3-Song-by-Hanumankind_PagalWorldi.com.co_ym91nf.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784966560/JAAN_SE_GUZARTE_HAIN_Full_Video_Dhurandhar_The_Revenge_Ranveer_Singh_Shashwat_Sachdev_Khan_Saab_-_T-Series_gomfhr.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784952946/John_Cena_-_The_Time_Is_Now_Entrance_Theme_copy_ovdfun.mp3",
+  "https://res.cloudinary.com/dhet30juy/video/upload/v1784952589/John_Cena_-_The_Time_Is_Now_Entrance_Theme_copy_jgjrdu.mp3"
+];
+
+app.get('/api/folder-songs', async (req, res) => {
+  if (process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
+    try {
+      const result = await cloudinary.search
+        .expression('folder:"Real-Time-Chat-App" OR asset_folder:"Real-Time-Chat-App" OR public_id:Real-Time-Chat-App/*')
+        .sort_by('created_at', 'desc')
+        .max_results(500)
+        .execute();
+
+      if (result && result.resources && result.resources.length > 0) {
+        const urls = result.resources.map(r => {
+          let url = r.secure_url;
+          if (r.format && !url.toLowerCase().endsWith('.' + r.format.toLowerCase())) {
+            url = `${url}.${r.format}`;
+          }
+          return url;
+        });
+        const validUrls = urls.filter(url => {
+          const lUrl = url.toLowerCase();
+          return lUrl.endsWith('.mp3') || lUrl.endsWith('.wav') || lUrl.endsWith('.m4a') || lUrl.endsWith('.ogg') || lUrl.endsWith('.aac') || lUrl.endsWith('.mp4');
+        });
+        if (validUrls.length > 0) {
+          const uniqueUrls = Array.from(new Set(validUrls));
+          return res.json(uniqueUrls);
+        }
+      }
+    } catch (err) {
+      console.error('Cloudinary API search error:', err.message);
+    }
+  }
+
+  const uniqueDefaults = Array.from(new Set(defaultSongsList));
+  res.json(uniqueDefaults);
+}); 
+
 // --- MongoDB Connection ---
 const MONGO_URI = process.env.MONGO_URI;
 const roomMessages = new Map();
@@ -139,8 +214,8 @@ const connectToDatabase = async () => {
     isConnecting = true;
     try {
         await mongoose.connect(mongoUri, {
-            serverSelectionTimeoutMS: 15000,
-            socketTimeoutMS: 45000,
+            serverSelectionTimeoutMS: 3000,
+            socketTimeoutMS: 5000,
         });
         isConnecting = false;
         console.log('MongoDB connected successfully.');
@@ -604,28 +679,29 @@ io.on('connection', (socket) => {
 const buildPath = path.join(__dirname, '..', 'client', 'build');
 const buildIndexPath = path.join(buildPath, 'index.html');
 
-if (fs.existsSync(buildIndexPath)) {
-    app.use(express.static(buildPath));
-    app.get('*', (req, res) => {
-        res.sendFile(buildIndexPath);
-    });
-} else {
-    app.get('*', (req, res) => {
-        res.status(200).send(`
-            <!doctype html>
-            <html>
-            <head><meta charset="utf-8"><title>Real-Time Chat App</title></head>
-            <body style="font-family: Arial, sans-serif; padding: 2rem;">
-                <h1>Real-Time Chat App</h1>
-                <p>The backend is running successfully.</p>
-                <p>Start the React frontend with:</p>
-                <pre>cd client && npm start</pre>
-                <p>Then open <a href="http://localhost:3000">http://localhost:3000</a>.</p>
-            </body>
-            </html>
-        `);
-    });
-}
+app.use(express.static(buildPath));
+
+app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api') || req.path.startsWith('/socket.io')) {
+        return next();
+    }
+    if (fs.existsSync(buildIndexPath)) {
+        return res.sendFile(buildIndexPath);
+    }
+    res.status(200).send(`
+        <!doctype html>
+        <html>
+        <head><meta charset="utf-8"><title>Real-Time Chat App</title></head>
+        <body style="font-family: Arial, sans-serif; padding: 2rem;">
+            <h1>Real-Time Chat App</h1>
+            <p>The backend is running successfully.</p>
+            <p>Start the React frontend with:</p>
+            <pre>cd client && npm start</pre>
+            <p>Then open <a href="http://localhost:3000">http://localhost:3000</a>.</p>
+        </body>
+        </html>
+    `);
+});
 
 /**
  * Starts the server after ensuring the database is connected and initial data is loaded.
@@ -634,7 +710,7 @@ if (fs.existsSync(buildIndexPath)) {
  */
 const startServer = async () => {
     await connectToDatabase(); // This function connects and then seeds/loads rooms.
-    const PORT = process.env.PORT || 7777;
+    const PORT = process.env.PORT || 3000;
     server.listen(PORT, '0.0.0.0', () => {
         console.log(`Server is ready and running on port ${PORT}`);
     });

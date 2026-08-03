@@ -1,0 +1,18 @@
+.settings-page {
+  padding: 20px;
+  background-color: #f0f2f5;
+}
+
+.settings-header {
+  margin-bottom: 20px;
+}
+
+.settings-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.settings-option label {
+  margin-right: 10px;
+}

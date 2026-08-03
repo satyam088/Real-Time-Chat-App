@@ -190,36 +190,99 @@ button:active {
   min-width: auto;
 }
 
+.participants-icon-btn,
+.settings-icon-btn,
+.change-bg-btn,
+.discover-rooms-icon-btn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  width: 76px;
+  height: 38px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.participants-icon-btn img,
+.settings-icon-btn img,
+.change-bg-btn img,
+.discover-rooms-icon-btn img {
+  max-width: 22px;
+  max-height: 22px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.participants-icon-btn:hover,
+.settings-icon-btn:hover,
+.change-bg-btn:hover,
+.discover-rooms-icon-btn:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  transform: translateY(-1px);
+}
+
 .background-picker {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-rows: repeat(2, auto);
   gap: 10px;
-  padding: 10px 20px;
-  background: rgba(255, 255, 255, 0.95);
-  border-bottom: 1px solid #eee;
-  justify-content: center;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.98);
+  border-bottom: 1px solid #e2e8f0;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .background-thumb {
-  border: 2px solid transparent;
-  padding: 0;
+  border: 2px solid rgba(0, 0, 0, 0.12);
   border-radius: 8px;
-  background: transparent;
+  padding: 6px 12px;
+  height: 38px;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   cursor: pointer;
   outline: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+.background-thumb:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .background-thumb.active {
-  border-color: #007bff;
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+  transform: translateY(-1px);
 }
 
-.background-thumb img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16/10;
-  object-fit: cover;
-  border-radius: 8px;
+.thumb-color-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.thumb-name {
+  white-space: nowrap;
 }
 
 .chat-messages {
@@ -239,6 +302,7 @@ button:active {
   border-radius: 18px;
   word-wrap: break-word;
   flex-grow: 1;
+  border: 1px solid #000000;
 }
 
 .message-item.own-message {
@@ -270,6 +334,7 @@ button:active {
   font-size: 0.85rem;
   align-self: center;
   font-style: italic;
+  border: none;
 }
 
 .avatar {
@@ -337,14 +402,57 @@ button:active {
   width: auto;
   padding: 0 10px;
   font-size: 1.5rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.emoji-btn.active {
+  color: #ef4444;
+  font-size: 1.25rem;
+  font-weight: bold;
 }
 
 .emoji-picker-container {
   position: absolute;
   bottom: 100%;
   left: 10px;
-  z-index: 100;
+  z-index: 1000;
   margin-bottom: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+}
+
+.close-emoji-picker-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1001;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #64748b;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.close-emoji-picker-btn:hover {
+  background-color: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+  transform: scale(1.08);
 }
 
 /* 
@@ -541,4 +649,240 @@ button:active {
 .room-stats {
   color: #777;
   font-size: 0.85rem;
+}
+
+/* Settings Modal Card */
+.settings-modal-card {
+  background: #ffffff;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 440px;
+  padding: 24px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  animation: popup-fade-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid #e2e8f0;
+}
+
+.settings-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 18px;
+}
+
+.settings-modal-header .settings-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-modal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.settings-close-btn {
+  background: #f1f5f9;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #64748b;
+  transition: all 0.2s ease;
+}
+
+.settings-close-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.settings-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  gap: 12px;
+}
+
+.settings-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.settings-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #1e293b;
+}
+
+.settings-desc {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.toggle-switch-btn {
+  position: relative;
+  width: 56px;
+  height: 30px;
+  border-radius: 9999px;
+  padding: 3px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  user-select: none;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+  box-sizing: border-box;
+}
+
+.toggle-switch-btn.enabled {
+  background-color: #34c759; /* Green for enabled */
+  box-shadow: 0 2px 8px rgba(52, 199, 89, 0.35);
+}
+
+.toggle-switch-btn.enabled:hover {
+  background-color: #2eb14f;
+}
+
+.toggle-switch-btn.disabled {
+  background-color: #ff3b30; /* Red for disabled */
+  box-shadow: 0 2px 8px rgba(255, 59, 48, 0.35);
+}
+
+.toggle-switch-btn.disabled:hover {
+  background-color: #e03126;
+}
+
+.toggle-thumb {
+  width: 24px;
+  height: 24px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateX(0);
+}
+
+.toggle-switch-btn.enabled .toggle-thumb {
+  transform: translateX(26px);
+}
+
+.settings-modal-footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 14px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.spam-warning-banner {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 6px 12px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  animation: popup-fade-in 0.2s ease-out;
+}
+
+/* Music Player Group & Marquee */
+.music-player-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.music-buttons-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.music-player-bar {
+  display: flex;
+  align-items: center;
+  background: rgba(241, 245, 249, 0.95);
+  border: 1px solid #cbd5e1;
+  padding: 3px 8px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-size: 0.72rem;
+  width: 140px;
+  max-width: 150px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.music-info-marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.music-marquee-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  white-space: nowrap;
+}
+
+.music-marquee-track.scrolling {
+  animation: marquee-loop 7s linear infinite;
+}
+
+.music-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.music-note-icon {
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.music-song-title {
+  font-weight: 600;
+  color: #0f172a;
+  white-space: nowrap;
+}
+
+@keyframes marquee-loop {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }

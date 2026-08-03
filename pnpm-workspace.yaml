@@ -2,5 +2,5 @@ packages:
   - 'client'
   - 'server'
 allowBuilds:
-  core-js: true
-  core-js-pure: true
+  core-js: set this to true or false
+  core-js-pure: set this to true or false

@@ -359,7 +359,7 @@ const ensureRoomExists = async (roomName) => {
                 // Use findOneAndUpdate with upsert to prevent race conditions
                 await Room.findOneAndUpdate({ name: trimmed }, { $setOnInsert: newRoomData }, { upsert: true });
             } catch (error) {
-                console.error(`Error saving new room "${trimmed}" to database:`, error.message);
+                console.error('Error saving new room "%s" to database: %s', trimmed, error.message);
             }
         }
     }

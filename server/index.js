@@ -286,7 +286,7 @@ const getRoomHistory = async (room) => {
                 return history.reverse();
             }
         } catch (error) {
-            console.error(`Error fetching chat history for room "${trimmedRoom}":`, error.message);
+            console.error('Error fetching chat history for room "%s": %s', trimmedRoom, error.message);
         }
     }
 
